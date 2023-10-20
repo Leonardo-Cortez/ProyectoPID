@@ -1,6 +1,8 @@
 % Convierte el tipo de la imagen a los diferentes tipos que son Indexada,
 % binaria, escala de grises y RBG
-%
+
+function [imgC, mapC, typeC] = Convertir(typeTo, img, map, type)
+
 %       typeTo: tipo al que se convierte la imagen
 %       img:    matriz de la imagen a convertir
 %       map:    mapa de color de la imagen

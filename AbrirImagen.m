@@ -1,6 +1,6 @@
 %Funcion Abrir Imagen
 
-function [img, map, type] =  AbrirImagen()
+function [img, map, type, path] =  AbrirImagen()
 
 % img:  matriz de la imagen
 % map:  mapa de color
@@ -8,12 +8,33 @@ function [img, map, type] =  AbrirImagen()
 
 %Abre ventana para seleccionar imagen donde definimos que tipo de formato
 %puede ingresarse para su procesamiento. 
-[img, map, type] = uigetfile({'*.png'; '*.jpg'; '*.tif'; '*.bmp'; '*.ppm'});
 
-%Si se cancela la operacion o retorna nada termina.
-     if isequal(file,0)
-      disp('Archivo Seleccionado');
-       else
-        disp(['No seleccionado', fullfile(path,file)]);
-     end
-return
+[file, folder] = uigetfile('*.bmp;*.jpg;*.jpeg;*.ppm;*.png;*.tif');
+
+% Terminar si se cierra la ventana
+if (file == 0)
+    img  = [];
+    map  = [];
+    path = [];
+    type = [];
+else
+    
+    % Crear ruta completa de la imagen
+    path = fullfile(folder, file);
+
+    if imfinfo(path).ColorType == "indexed"
+        [img, map] = imread(path);
+        type = "indexed";
+    else
+        img  = imread(path);
+        map  = [];
+        if imfinfo(path).ColorType == "truecolor"
+            type = "truecolor"; 
+        elseif imfinfo(path).BitDepth == 1 
+            type = "binary"; 
+        else
+            type = "grayscale"; 
+        end
+    end
+
+end
