@@ -8,73 +8,50 @@ function [imgCon, mapCon, typeCon] = Convertir(typeTo, img, map, type)
 %       map:    mapa de color de la imagen
 %       type:   tipo de la imagen
 
-   switch typeTo
+    switch typeTo
         case "Indexada"
             typeCon = "indexed";
             if type == "indexed"
-                imgCon = img;
-                mapCon = map;
+                
+                % No se requiere conversión adicional
+            elseif type == "binary"
+                [imgCon, mapCon] = gray2ind(img, 2);
+            elseif type == "grayscale"
+                [imgCon, mapCon] = gray2ind(img, 256);
             else
-                imgCon = ConvertToIndexed(img, type);
-                mapCon = colormap('default');
+                [imgCon, mapCon] = rgb2ind(img, 256);
             end
+
         case "RGB"
             typeCon = "truecolor";
             mapCon = [];
-            imgCon = ConvertToTrueColor(img, type);
+            if type == "indexed"
+                imgCon = im2uint8(ind2rgb(img, map));
+            elseif ismember(type, ["binary", "grayscale"])
+                [auximg, auxmap] = gray2ind(img, 256);
+                imgCon = im2uint8(ind2rgb(auximg, auxmap));
+            end
+
         case "Escala de Grises"
             typeCon = "grayscale";
             mapCon = [];
-            imgCon = ConvertToGrayscale(img, type);
+            if type == "indexed"
+                imgCon = im2uint8(ind2gray(img, map));
+            elseif type == "binary"
+                imgCon = uint8(255 * img);
+            elseif type == "grayscale"
+                % No se requiere conversión adicional
+            else
+                imgCon = rgb2gray(img);
+            end
+
         case "Binaria"
             typeCon = "binary";
             mapCon = [];
-            imgCon = ConvertToBinary(img, type);
-        otherwise
-            error('Tipo de conversión no válido.');
-    end
-end
-
-function imgOut = ConvertToIndexed(img, type)
-    if type == "binary"
-        imgOut = gray2ind(img, 2);
-    elseif type == "grayscale"
-        imgOut = gray2ind(img, 256);
-    else
-        imgOut = rgb2ind(img, 256);
-    end
-end
-
-function imgOut = ConvertToTrueColor(img, type)
-    if type == "indexed"
-        imgOut = im2uint8(ind2rgb(img, colormap('default')));
-    elseif type == "binary" || type == "grayscale"
-        imgOut = im2uint8(ind2rgb(gray2ind(img, 256), colormap('default')));
-    else
-        imgOut = img;
-    end
-end
-
-function imgOut = ConvertToGrayscale(img, type)
-    if type == "indexed"
-        imgOut = im2uint8(ind2gray(img, colormap('default')));
-    elseif type == "binary"
-        imgOut = uint8(255 * img);
-    elseif type == "grayscale"
-        imgOut = img;
-    else
-        imgOut = rgb2gray(img);
-    end
-end
-
-function imgOut = ConvertToBinary(img, type)
-    if type == "indexed"
-        imgOut = imbinarize(im2single(ind2gray(img, colormap('default')));
-    elseif type == "binary"
-        imgOut = img;
-    elseif type == "grayscale"
-        imgOut = imbinarize(im2single(img));
-    else
-        imgOut = imbinarize(im2gray(img));
+            if type == "indexed"
+                imgCon = imbinarize(im2single(ind2gray(img, map)));
+            elseif ismember(type, ["binary", "grayscale"])
+                imgCon = imbinarize(im2single(img));
+            end
     end
 end
