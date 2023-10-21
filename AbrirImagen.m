@@ -36,6 +36,5 @@ function [img, map, type, path] =  AbrirImagen()
         else
             type = "grayscale"; 
         end
-     end
-
-            end
+    end
+end
