@@ -8,50 +8,62 @@ function [imgCon, mapCon, typeCon] = Convertir(typeTo, img, map, type)
 %       map:    mapa de color de la imagen
 %       type:   tipo de la imagen
 
-    switch typeTo
-        case "Indexada"
-            typeCon = "indexed";
-            if type == "indexed"
-                
-                % No se requiere conversión adicional
-            elseif type == "binary"
-                [imgCon, mapCon] = gray2ind(img, 2);
-            elseif type == "grayscale"
-                [imgCon, mapCon] = gray2ind(img, 256);
-            else
-                [imgCon, mapCon] = rgb2ind(img, 256);
-            end
-
-        case "RGB"
-            typeCon = "truecolor";
-            mapCon = [];
-            if type == "indexed"
-                imgCon = im2uint8(ind2rgb(img, map));
-            elseif ismember(type, ["binary", "grayscale"])
-                [auximg, auxmap] = gray2ind(img, 256);
-                imgCon = im2uint8(ind2rgb(auximg, auxmap));
-            end
-
-        case "Escala de Grises"
-            typeCon = "grayscale";
-            mapCon = [];
-            if type == "indexed"
-                imgCon = im2uint8(ind2gray(img, map));
-            elseif type == "binary"
-                imgCon = uint8(255 * img);
-            elseif type == "grayscale"
-                % No se requiere conversión adicional
-            else
-                imgCon = rgb2gray(img);
-            end
-
-        case "Binaria"
-            typeCon = "binary";
-            mapCon = [];
-            if type == "indexed"
-                imgCon = imbinarize(im2single(ind2gray(img, map)));
-            elseif ismember(type, ["binary", "grayscale"])
-                imgCon = imbinarize(im2single(img));
-            end
+if typeTo == "Indexada"
+    
+    typeCon = "indexed";
+    if type == "indexed"
+        imgCon  = img;
+        mapCon  = map;
+    elseif type == "binary"
+        [imgCon, mapCon] = gray2ind(img, 2);
+    elseif type == "grayscale"
+        [imgCon, mapCon] = gray2ind(img, 256);
+    else
+        [imgCon, mapCon] = rgb2ind(img, 256);
     end
+
+elseif typeTo == "RGB"
+
+    typeCon = "truecolor";
+    mapCon  = [];
+    if type == "indexed"
+        imgCon  = im2uint8(ind2rgb(img, map));
+    elseif type == "binary"
+        [auximg,auxmap] = gray2ind(img, 2);
+        imgCon = im2uint8(ind2rgb(auximg,auxmap));
+    elseif type == "grayscale"
+        [auximg,auxmap] = gray2ind(img, 256);
+        imgCon = im2uint8(ind2rgb(auximg,auxmap));
+    else
+        imgCon = img;
+    end
+
+elseif typeTo == "Escala de Grises"
+
+    typeCon = "grayscale";
+    mapCon  = [];
+    if type == "indexed"
+        imgCon  = im2uint8(ind2gray(img, map));
+    elseif type == "binary"
+        imgCon = uint8(255 * img);
+    elseif type == "grayscale"
+        imgCon = img;
+    else
+        imgCon = rgb2gray(img);
+    end
+    
+elseif typeTo == "Binaria"
+
+    typeCon = "binary";
+    mapCon  = [];
+    if type == "indexed"
+        imgCon  = imbinarize(im2single(ind2gray(img, map)));
+    elseif type == "binary"
+        imgCon = img;
+    elseif type == "grayscale"
+        imgCon = imbinarize(im2single(img));
+    else
+        imgCon = imbinarize(im2gray(img));
+    end
+
 end
