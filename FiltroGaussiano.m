@@ -1,5 +1,5 @@
 
-function minimoFilter = FiltroMinimo(imgProcesada)
+function gaussFilter = FiltroGaussiano(imgProcesada)
 
 %{
     Se realiza una verificación para determinar el tipo de imagen de entrada
@@ -13,28 +13,26 @@ function minimoFilter = FiltroMinimo(imgProcesada)
 
         Escala de grises: Si la imagen ya está en escala de grises, 
         se utiliza directamente.
-
-    ordfilt2 es la función que aplica el filtro de mínimo. 
-    El argumento 1 indica que se está buscando el primer valor más 
-    pequeño en el vecindario, que corresponde al valor mínimo.
-    El vecindario utilizado para el cálculo es una matriz de 1's de 
-    tamaño 3x3 (ones(3, 3)), lo que significa que se está buscando el 
-    valor mínimo en un vecindario de 3x3 píxeles alrededor de cada píxel en la imagen.
+    
+    imgaussfilt es la función que aplica el filtro gaussiano. 
+    El parámetro sigma controla la desviación estándar del filtro, 
+    que afecta la cantidad de suavizado.
 %}
 
 if size(imgProcesada, 3) == 3 % RGB
     imagen_gris = rgb2gray(imgProcesada);
 
-    minimoFilter = ordfilt2(imagen_gris,1,ones(3,3));
+    sigma = 2;
+    gaussFilter = imgaussfilt(imagen_gris, sigma);
 
 elseif islogical(imgProcesada) % Binaria
     imagen_gris = uint8(imgProcesada) * 255;
 
-    minimoFilter = ordfilt2(imagen_gris,1,ones(3,3));
-
+    sigma = 2;
+    gaussFilter = imgaussfilt(imagen_gris, sigma);
 else % Escala de grises
     imagen_gris = imgProcesada;
 
-    minimoFilter = ordfilt2(imagen_gris,1,ones(3,3));
-
+    sigma = 2;
+    gaussFilter = imgaussfilt(imagen_gris, sigma);
 end

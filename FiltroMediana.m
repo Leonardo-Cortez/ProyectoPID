@@ -13,6 +13,11 @@ function medianaFilter = FiltroMediana(imgProcesada)
 
         Escala de grises: Si la imagen ya está en escala de grises, 
         se utiliza directamente.
+
+    medfilt2 es la función que aplica el filtro de mediana. El 
+    argumento [3, 3] especifica el tamaño del vecindario sobre el cual 
+    se calcula la mediana. En este caso, se utiliza un vecindario de 
+    3x3 píxeles alrededor de cada píxel en la imagen.
 %}
 
 if size(imgProcesada, 3) == 3 % RGB
@@ -27,13 +32,6 @@ elseif islogical(imgProcesada) % Binaria
 
 else % Escala de grises
     imagen_gris = imgProcesada;
-
-    %{
-        medfilt2 es la función que aplica el filtro de mediana. El 
-        argumento [3, 3] especifica el tamaño del vecindario sobre el cual 
-        se calcula la mediana. En este caso, se utiliza un vecindario de 
-        3x3 píxeles alrededor de cada píxel en la imagen.
-    %}
 
     medianaFilter = medfilt2(imagen_gris, [3, 3]);
 

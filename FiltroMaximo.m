@@ -13,6 +13,14 @@ function maximoFilter = FiltroMaximo(imgProcesada)
 
         Escala de grises: Si la imagen ya está en escala de grises, 
         se utiliza directamente.
+
+    ordfilt2 es la función que aplica el filtro de máximo. 
+    El argumento 9 indica que se está buscando el noveno valor más 
+    grande en el vecindario, que corresponde al valor máximo.
+    El vecindario utilizado para el cálculo es una matriz de 1's de 
+    tamaño 3x3 (ones(3, 3)), lo que significa que se está buscando el 
+    valor máximo en un vecindario de 3x3 píxeles alrededor de cada 
+    píxel en la imagen.
 %}
 
 if size(imgProcesada, 3) == 3 % RGB
@@ -27,16 +35,6 @@ elseif islogical(imgProcesada) % Binaria
 
 else % Escala de grises
     imagen_gris = imgProcesada;
-
-    %{
-        ordfilt2 es la función que aplica el filtro de máximo. 
-        El argumento 9 indica que se está buscando el noveno valor más 
-        grande en el vecindario, que corresponde al valor máximo.
-        El vecindario utilizado para el cálculo es una matriz de 1's de 
-        tamaño 3x3 (ones(3, 3)), lo que significa que se está buscando el 
-        valor máximo en un vecindario de 3x3 píxeles alrededor de cada 
-        píxel en la imagen.
-    %}
 
     maximoFilter = ordfilt2(imagen_gris,9,ones(3,3));
 
