@@ -22,7 +22,7 @@ function imgResul = Sustraccion(imgOri, typeOri, imgSeg, typeSeg)
                 sizeOri(:, 3) = [];
                 sizeSeg(:, 3) = [];
             end
-
+            
             % Redimensionar la imagen más pequeña para que coincida
            if ~isequal(sizeOri, sizeSeg)
             if prod(sizeOri) > prod(sizeSeg)
