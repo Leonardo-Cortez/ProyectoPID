@@ -13,7 +13,7 @@ function [img, map, type, path] =  AbrirImagen()
 [file, folder] = uigetfile('*.bmp;*.jpg;*.jpeg;*.ppm;*.png;*.tif');
 
 % Terminar si no tiene seleccionado un archivo
-            if (file == 0)
+if (file == 0)
                 img  = [];
                 map  = [];
                 path = [];
