@@ -20,8 +20,8 @@ function imgResul = Adicion(imgOri, typeOri, imgSeg, typeSeg)
 
             % Ajustar tamaños si son tipo de "truecolor"
             if typeOri == "truecolor"
-                sizeOri(:, 3) = [];
-                sizeSeg(:, 3) = [];
+                sizeOri(:, 4) = [];
+                sizeSeg(:, 4) = [];
             end
 
             % Redimensionar la imagen más pequeña para que coincida
