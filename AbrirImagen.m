@@ -14,13 +14,17 @@ function [img, map, type, path] =  AbrirImagen()
 
 % Terminar si no tiene seleccionado un archivo
 if (file == 0)
-                img  = [];
-                map  = [];
-                path = [];
-                type = [];
-            else
+    % se asignan matrices vacías a las variables 
+    img  = [];
+    map  = [];
+    path = [];
+    type = [];
+ else
     
-    % Crear la ruta de la imagen
+    %{
+        Combina el nombre de la carpeta (folder) con el nombre del 
+        archivo (file) para formar la ruta completa del archivo de imagen.
+    %}
     path = fullfile(folder, file);
 
     if imfinfo(path).ColorType == "indexed"
