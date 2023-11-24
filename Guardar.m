@@ -12,7 +12,7 @@
         end
 
     % Obtener ruta del archivo donde guardar
-    imgFor = {'*.bmp';'*.jpg';'*.jpeg';'*.ppm';'*.png';'*.tif'};
+    imgFor = {'*.jpg';'*.jpeg';'*.ppm';'*.png';'*.tif'; '*.bmp'};
     [file, folder] = uiputfile(imgFor);
 
         % Terminar si se cierra la ventana
