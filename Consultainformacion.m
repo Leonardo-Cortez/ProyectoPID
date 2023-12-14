@@ -1,9 +1,5 @@
-%%
-% FUNCIÓN: "consultarInformacion".
+% FUNCIÓN consultarInformacion
 % Muestra las características de la imagen en una ventana flotante.
-% 
-% Input:
-%       path: ruta completa de la imagen
 
 function Consultainformacion(path)
     if isempty(path)
